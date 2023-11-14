@@ -24,21 +24,21 @@ namespace Linkedlist {
 	private:
 		Node<T>* head;
 	public:
-		LinkedList();
-		LinkedList(const LinkedList<T>& other);
-		LinkedList(const int size, const int random_capacity);
-		LinkedList(const int size, const float random_capacity);
+		LinkedList(); //+
+		LinkedList(const LinkedList<T>& other); //+
+		LinkedList(const int size, const int random_capacity); //+
+		LinkedList(const int size, const float random_capacity); //+
 		~LinkedList();
-		LinkedList& operator=(const LinkedList<T>& other);
-		void push_tail(const T& value);
-		void push_tail(const LinkedList<T>& other);
-		void push_head(const T& value);
-		void push_head(const LinkedList<T>& other);
-		void pop_head();
-		void pop_tail();
-		void delete_node(const T& val);
-		T& operator[](int index);
-		const T operator[](int index) const;
+		LinkedList& operator=(const LinkedList<T>& other); //+
+		void push_tail(const T& value); //+
+		void push_tail(const LinkedList<T>& other); //+
+		void push_head(const T& value); //+
+		void push_head(const LinkedList<T>& other); //+
+		void pop_head(); //+
+		void pop_tail(); //+
+		void delete_node(const T& val); //+
+		T& operator[](int index); //+
+		const T operator[](int index) const; //+
 		Node<T>* get_head() const {
 			return head;
 		};
@@ -190,6 +190,12 @@ namespace Linkedlist {
 	void LinkedList<T>::push_head(const LinkedList<T>& other) {
 		if (other.head != nullptr) {
 			Node<T>* tmp_other = other.head;
+			LinkedList<T> reversed_other; 
+			while (tmp_other) {
+				reversed_other.push_head(tmp_other->value);
+				tmp_other = tmp_other->next;
+			}
+			tmp_other = reversed_other.head;
 			while (tmp_other) {
 				this->push_head(tmp_other->value);
 				tmp_other = tmp_other->next;
