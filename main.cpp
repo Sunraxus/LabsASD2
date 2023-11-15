@@ -163,14 +163,14 @@ int main() {
 
 	cout << "-----------------------------------------------------------------" << endl << endl;
 	
-	LinkedList<int> list10(5, 10);
-	LinkedList<int> list11(5, 10);
+	LinkedList<int> list10(5, 9);
+	LinkedList<int> list11(5, 9);
 	LinkedList<int> list12;
 	list12 = summ(list10, list11);
 	cout << "Список 10: " <<  list10 << endl;
 	cout << "Список 11: " <<  list11 << endl;
 	cout << "Список 12, сумма 10 и 11 списка: " <<  list12 << endl;
-	LinkedList<int> list13(5, 10);
+	LinkedList<int> list13(5, 9);
 	LinkedList<int> list14;
 	LinkedList<int> list15;
 	list14.push_head(4);
@@ -178,4 +178,5 @@ int main() {
 	cout << "Список 13: " <<  list13 << endl;
 	cout << "Список 14: " <<  list14 << endl;
 	cout << "Список 15, умножение списка 13 на 14: " << list15 << endl;
+
 }

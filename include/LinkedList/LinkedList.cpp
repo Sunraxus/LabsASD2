@@ -4,7 +4,6 @@
 #include <iostream>
 #include <cstdlib> 
 #include <stdexcept> 
-#include <random>
 
 using namespace std;
 
@@ -39,7 +38,6 @@ namespace Linkedlist {
 		void delete_node(const T& val); //+
 		T& operator[](int index); //+
 		const T operator[](int index) const; //+
-		void reverse();
 		Node<T>* get_head() const {
 			return head;
 		};
@@ -60,19 +58,17 @@ namespace Linkedlist {
 
 	template<typename T>
 	LinkedList<T>::LinkedList(const int size, const int random_capacity) : head(nullptr) {
-		int count = 0;
-		while (count != size) {
-			this->push_tail((int)(rand()) * random_capacity / RAND_MAX + 1);
-			count += 1;
+		for (int count = 0; count < size; ++count) {
+			this->push_tail(static_cast<T>(rand() % random_capacity + 1));
 		}
 	}
 
 	template<typename T>
 	LinkedList<T>::LinkedList(const int size, const float random_capacity) : head(nullptr) {
-		int count = 0;
-		while (count != size) {
-			this->push_tail((float)(rand()) * (random_capacity - 0.0001f) / RAND_MAX + 0.0001f);
-			count += 1;
+		for (int count = 0; count < size; ++count) {
+			float random_float = static_cast<float>(rand()) / RAND_MAX;
+			T random_value = static_cast<T>(random_float * random_capacity + 0.0001f);
+			this->push_tail(random_value);
 		}
 	}
 
@@ -82,7 +78,6 @@ namespace Linkedlist {
 			Node<T>* tmp = head;
 			head = head->next;
 			delete tmp;
-			tmp = nullptr;
 		}
 	}
 
@@ -136,7 +131,7 @@ namespace Linkedlist {
 	template<typename T>
 	void LinkedList<T>::pop_head() {
 		if (head == nullptr) {
-			throw length_error("Cannot delete element in empty list");
+			throw out_of_range("Empty list");
 		}
 		else {
 			if (head->next == nullptr) {
@@ -148,7 +143,6 @@ namespace Linkedlist {
 				head = head->next;
 				head->prev = nullptr;
 				delete tmp;
-				tmp = nullptr;
 			}
 		}
 	}
@@ -156,24 +150,21 @@ namespace Linkedlist {
 	template<typename T>
 	void LinkedList<T>::pop_tail() {
 		if (head == nullptr) {
-			throw length_error("Cannot delete element in empty list");
+			throw out_of_range("Empty list");
 		}
 		else {
 			Node<T>* last = head;
 			while (last->next != nullptr) {
 				last = last->next;
 			}
-			Node<T>* pre_last = last->prev;
-			if (pre_last != nullptr) {
-				pre_last->next = nullptr;
+			Node<T>* prev_last = last->prev;
+			if (prev_last != nullptr) {
+				prev_last->next = nullptr;
 			}
 			else {
 				head = nullptr;
 			}
 			delete last;
-			last = nullptr;
-
-
 		}
 	}
 
@@ -263,23 +254,8 @@ namespace Linkedlist {
 			}
 		}
 		else {
-			throw length_error("Empty list");
+			throw out_of_range("Empty list");
 		}
-	}
-
-	template<typename T>
-	void LinkedList<T>::reverse() {
-		Node<T>* prev = nullptr;
-		Node<T>* current = head;
-		Node<T>* nextNode = nullptr;
-
-		while (current) {
-			nextNode = current->next;
-			current->next = prev;
-			prev = current;
-			current = nextNode;
-		}
-		head = prev;
 	}
 
 	template<typename T>
