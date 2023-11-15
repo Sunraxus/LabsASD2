@@ -39,9 +39,11 @@ namespace Linkedlist {
 		void delete_node(const T& val); //+
 		T& operator[](int index); //+
 		const T operator[](int index) const; //+
+		void reverse();
 		Node<T>* get_head() const {
 			return head;
 		};
+		int get_size() const;
 	};
 
 	template<typename T>
@@ -266,6 +268,34 @@ namespace Linkedlist {
 	}
 
 	template<typename T>
+	void LinkedList<T>::reverse() {
+		Node<T>* prev = nullptr;
+		Node<T>* current = head;
+		Node<T>* nextNode = nullptr;
+
+		while (current) {
+			nextNode = current->next;
+			current->next = prev;
+			prev = current;
+			current = nextNode;
+		}
+		head = prev;
+	}
+
+	template<typename T>
+	int LinkedList<T>::get_size() const {
+		int count = 0;
+		Node<T>* current = head;
+
+		while (current != nullptr) {
+			++count;
+			current = current->next;
+		}
+
+		return count;
+	}
+
+	template<typename T>
 	ostream& operator<<(std::ostream& stream, LinkedList<T>& rhs)
 	{
 		Node<T>* tmp = rhs.get_head();
@@ -279,5 +309,6 @@ namespace Linkedlist {
 		}
 		return stream;
 	}
+
 }
 #endif

@@ -4,6 +4,58 @@
 using namespace Linkedlist;
 using namespace std;
 
+template <typename T>
+LinkedList<T> summ(LinkedList<T> list1, LinkedList<T> list2) {
+	LinkedList<int> result;
+	int carry = 0;
+	int i = list1.get_size() - 1;
+	int j = list2.get_size() - 1;
+	while (i >= 0 || j >= 0  || carry)
+	{
+		int digit1 = i >= 0 ? list1[i] : 0;
+		int digit2 = j >= 0 ? list2[j] : 0;
+		int sum = digit1 + digit2 + carry;
+		carry = sum / 10;
+		result.push_head(sum % 10);
+		if (i >= 0) --i;
+		if (j >= 0) --j;
+	}
+	return result;
+}
+
+template <typename T>
+LinkedList<T> multiply(const LinkedList<T>& list1, const LinkedList<T>& list2) {
+	LinkedList<int> result;
+	if (list1[0] == 0 || list2[0] == 0)
+	{
+		result.push_head(0);
+		return result;
+	}
+	for (int i = list1.get_size() - 1; i >= 0; --i) {
+		int carry = 0;
+		LinkedList<T> temp_result;
+		for (int k = 0; k < list1.get_size() - 1 - i; ++k) {
+			temp_result.push_tail(0);
+		}
+
+		for (int j = list2.get_size() - 1; j >= 0; --j) {
+			T digit1 = list1[i];
+			T digit2 = list2[j];
+			T product = digit1 * digit2 + carry;
+			carry = product / 10;
+			temp_result.push_head(product % 10);
+		}
+
+		if (carry > 0) {
+			temp_result.push_head(carry);
+		}
+
+		result = summ(result, temp_result);
+	}
+
+	return result;
+}
+
 int main() {
 	setlocale(LC_ALL, "RUS");
 
@@ -108,4 +160,22 @@ int main() {
 	cout << "Список 7: " << list7 << endl;
 	list7[3] = 322.322f;
 	cout << "Список 7 после list7[3] = 322.322f: " << list7 << endl << endl;
+
+	cout << "-----------------------------------------------------------------" << endl << endl;
+	
+	LinkedList<int> list10(5, 10);
+	LinkedList<int> list11(5, 10);
+	LinkedList<int> list12;
+	list12 = summ(list10, list11);
+	cout << "Список 10: " <<  list10 << endl;
+	cout << "Список 11: " <<  list11 << endl;
+	cout << "Список 12, сумма 10 и 11 списка: " <<  list12 << endl;
+	LinkedList<int> list13(5, 10);
+	LinkedList<int> list14;
+	LinkedList<int> list15;
+	list14.push_head(4);
+	list15 = multiply(list13, list14);
+	cout << "Список 13: " <<  list13 << endl;
+	cout << "Список 14: " <<  list14 << endl;
+	cout << "Список 15, умножение списка 13 на 14: " << list15 << endl;
 }
